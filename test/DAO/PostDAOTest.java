@@ -242,13 +242,14 @@ public class PostDAOTest {
 
     @Test
     public void testSave_Failure() {
-//      Create an exception
-        Posts post = null;
-        when(session.save(post)).thenThrow(new RuntimeException("Save failed"));
-        
+        Users mockUser = new Users(1, "username", "user@email.com", "password", new Date(), new HashSet<>(), new HashSet<>());
+        Posts post = new Posts(1, mockUser, "title-1", "content-1", new Date(2024, 10, 31), new HashSet<>(), new HashSet<>());
+
         boolean result = postDAO.save(post);
+        Posts postResult = postDAO.getPostById(post.getId());
 
         assertFalse(result);
+        assertNull(postResult);
         verify(transaction).rollback();
         verify(session).close();
     }
