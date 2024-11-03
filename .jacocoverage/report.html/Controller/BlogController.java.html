@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BlogController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;BlogHub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Controller</a> &gt; <span class="el_source">BlogController.java</span></div><h1>BlogController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Controller;
+
+import DAO.CommentDAO;
+import DAO.PostDAO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import pojo.Comments;
+import pojo.Posts;
+import pojo.Tags;
+
+/**
+ *
+ * @author silviarianto
+ */
+@ManagedBean
+@ViewScoped
+public class BlogController {
+
+    private int postId;
+<span class="fc" id="L28">    private Comments comment = new Comments();</span>
+    private List&lt;Comments&gt; comments;
+    private List&lt;Tags&gt; tagList;
+    private Posts post;
+    private PostDAO postDAO;
+    private CommentDAO commentDAO;
+
+    @ManagedProperty(value = &quot;#{sessionController}&quot;)
+    private SessionController sessionController;
+
+<span class="fc" id="L38">    public BlogController() {</span>
+<span class="fc" id="L39">        postDAO = new PostDAO();</span>
+<span class="fc" id="L40">        commentDAO = new CommentDAO();</span>
+<span class="fc" id="L41">    }</span>
+
+    public void loadPost() {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (postId &gt; 0) {</span>
+<span class="fc" id="L45">            post = postDAO.getPostById(postId);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (post != null) {</span>
+<span class="fc" id="L47">                comments = new ArrayList&lt;&gt;(post.getCommentses());</span>
+<span class="fc" id="L48">                tagList = new ArrayList&lt;&gt;(post.getTagses());</span>
+            }
+        }
+<span class="fc" id="L51">    }</span>
+
+    public String addComment() {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (!sessionController.isLoggedIn()) {</span>
+<span class="fc" id="L55">            System.out.println(&quot;belum login&quot;);</span>
+<span class="fc" id="L56">            return &quot;login.xhtml?faces-redirect=true&quot;;</span>
+        }
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (postId &gt; 0) {</span>
+<span class="fc" id="L59">            comment.setPosts(post);</span>
+<span class="fc" id="L60">            comment.setUsers(sessionController.getCurrentUser());</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            if (commentDAO.save(comment)) {</span>
+<span class="fc" id="L62">                System.out.println(&quot;success&quot;);</span>
+<span class="fc" id="L63">                return null;</span>
+            }
+        }
+<span class="fc" id="L66">        System.out.println(&quot;failed&quot;);</span>
+<span class="fc" id="L67">        return null;</span>
+    }
+
+    public SessionController getSessionController() {
+<span class="fc" id="L71">        return sessionController;</span>
+    }
+
+    public void setSessionController(SessionController sessionController) {
+<span class="fc" id="L75">        this.sessionController = sessionController;</span>
+<span class="fc" id="L76">    }</span>
+    
+    public void setPostDAO(PostDAO postDAO) {
+<span class="fc" id="L79">        this.postDAO = postDAO;</span>
+<span class="fc" id="L80">    }</span>
+    
+    public void setCommentDAO(CommentDAO commentDAO) {
+<span class="fc" id="L83">        this.commentDAO = commentDAO;</span>
+<span class="fc" id="L84">    }</span>
+
+    public Comments getComment() {
+<span class="fc" id="L87">        return comment;</span>
+    }
+
+    public void setComment(Comments comment) {
+<span class="fc" id="L91">        this.comment = comment;</span>
+<span class="fc" id="L92">    }</span>
+
+    public List&lt;Comments&gt; getComments() {
+<span class="fc" id="L95">        return comments;</span>
+    }
+
+    public void setComments(List&lt;Comments&gt; commments) {
+<span class="fc" id="L99">        this.comments = commments;</span>
+<span class="fc" id="L100">    }</span>
+
+    public Posts getPost() {
+<span class="fc" id="L103">        return post;</span>
+    }
+
+    public void setPost(Posts post) {
+<span class="fc" id="L107">        this.post = post;</span>
+<span class="fc" id="L108">    }</span>
+
+    public int getPostId() {
+<span class="fc" id="L111">        return postId;</span>
+    }
+
+    public void setPostId(int postId) {
+<span class="fc" id="L115">        this.postId = postId;</span>
+<span class="fc" id="L116">    }</span>
+
+    public List&lt;Tags&gt; getTagList() {
+<span class="fc" id="L119">        return tagList;</span>
+    }
+
+    public void setTagList(List&lt;Tags&gt; tagsList) {
+<span class="fc" id="L123">        this.tagList = tagsList;</span>
+<span class="fc" id="L124">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

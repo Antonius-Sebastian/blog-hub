@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./base.xhtml">
+            <f:metadata>
+                <f:viewParam name="postId" value="#{postController.postId}" />
+                <f:event type="preRenderView" listener="#{postController.loadPost}" />
+            </f:metadata>
+            <ui:define name="js">
+                <script src="https://cdn.tiny.cloud/1/y3dl6hprpwlkxptgw6501d9oxl15tne0lvrftkarixlzfa2m/tinymce/7/tinymce.min.js"
+                referrerpolicy="origin"></script>
+                <script>
+                    tinymce.init({
+                        selector: 'textarea',
+                        hidden_input: false,
+                        plugins: [
+                            'save',
+                            // Core editing features
+                            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                                    // Your account includes a free trial of TinyMCE premium features
+                        ],
+                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                        tinycomments_mode: 'embedded',
+                        tinycomments_author: 'Author name',
+                        mergetags_list: [
+                            {value: 'First.Name', title: 'First Name'},
+                            {value: 'Email', title: 'Email'},
+                        ],
+                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                    });
+                </script>
+            </ui:define>
+            <ui:define name="content">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
+                            <h:form>
+                                <div class="mb-4">
+                                    <label class="text-xl text-gray-600 dark:text-white">Title <span
+                                            class="text-red-500">*</span></label>
+                                    <h:outputText value="#{blogController.post.title}"/>
+                                    <h:inputText value="#{postController.post.title}" 
+                                                 class="border-2 border-gray-300 p-2 w-full" 
+                                                 id="title" 
+                                                 required="true"
+                                                 requiredMessage="Title is required" />
+                                    <h:message id="titleMessage" for="title" styleClass="text-red-800 dark:text-red-400"/>
+                                </div>
+
+                                <h:selectManyCheckbox value="#{postController.selectedTags}" 
+                                                      id="tags"
+                                                      styleClass="dark:text-white"
+                                                      required="true"
+                                                      requiredMessage="Tag is required">
+                                    <f:selectItems value="#{postController.availableTags}"
+                                                   var="tag"
+                                                   itemLabel="#{tag.name}"
+                                                   itemValue="#{tag.id}" />
+                                </h:selectManyCheckbox>
+                                <h:message id="tagMessage" for="tags" styleClass="text-red-800 dark:text-red-400"/>
+
+                                <div class="mb-8">
+                                    <label class="text-xl text-gray-600 dark:text-white">Content <span
+                                            class="text-red-500">*</span></label>
+                                    <h:inputTextarea value="#{postController.post.content}"
+                                                     id="test"
+                                                     styleClass="border-2 border-gray-500" 
+                                                     required="true" 
+                                                     requiredMessage="Content is required" />
+                                    <h:message id="contentMessage" for="content" styleClass="text-red-800 dark:text-red-400"/>
+                                </div>
+                                <div class="flex p-1">
+                                    <h:commandButton value="Submit"
+                                                     action="#{postController.addPost}"
+                                                     onclick="myFunction()"
+                                                     styleClass="p-3 bg-blue-500 text-white hover:bg-blue-400"/>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+            <script>
+                myFunction() {
+                    document.query("textarea").innerHTML = tinymce.activeEditor.getContent();
+                }
+            </script>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <composite:interface>
+                <composite:attribute name="username" default="no-name"/>
+                <composite:attribute name="content" default="untitled"/>
+                <composite:attribute name="date" default=""/>
+    </composite:interface>
+    <composite:implementation>
+        <article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+            <footer class="flex justify-between items-center mb-2">
+                <div class="flex items-center">
+                    <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                        #{cc.attrs.username}
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        <time datetime="2022-02-08" title="February 8th, 2022">
+                            #{cc.attrs.date}
+                        </time>
+                    </p>
+                </div>
+            </footer>
+            <p class="text-gray-500 dark:text-gray-400">
+                #{cc.attrs.content}
+            </p>
+        </article>
+    </composite:implementation>
+</html>
+

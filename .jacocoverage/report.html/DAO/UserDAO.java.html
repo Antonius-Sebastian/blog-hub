@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UserDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;BlogHub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">DAO</a> &gt; <span class="el_source">UserDAO.java</span></div><h1>UserDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DAO;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import pojo.BlogHubUtil;
+import pojo.Users;
+
+/**
+ *
+ * @author silviarianto
+ */
+<span class="fc" id="L18">public class UserDAO {</span>
+
+    public boolean save(Users user) {
+<span class="fc" id="L21">        boolean success = true;</span>
+<span class="fc" id="L22">        Session session = BlogHubUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L23">        Transaction tx = session.beginTransaction();</span>
+        try {
+<span class="fc" id="L25">            session.save(user);</span>
+<span class="fc" id="L26">            tx.commit();</span>
+<span class="fc" id="L27">        } catch (Exception e) {</span>
+<span class="fc" id="L28">            tx.rollback();</span>
+<span class="fc" id="L29">            System.out.println(&quot;[ERROR] UserDAO.save: &quot; + e.getMessage());</span>
+<span class="fc" id="L30">            success = false;</span>
+        } finally {
+<span class="pc" id="L32">            session.close();</span>
+<span class="fc" id="L33">        }</span>
+<span class="fc" id="L34">        return success;</span>
+    }
+
+    public Users getByUsername(String username) {
+        Users user;
+<span class="fc" id="L39">        Session session = BlogHubUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L40">        Transaction tx = session.beginTransaction();</span>
+        try {
+<span class="fc" id="L42">            Query query = session.createQuery(&quot;FROM Users WHERE username = :username&quot;);</span>
+<span class="fc" id="L43">            query.setParameter(&quot;username&quot;, username);</span>
+<span class="fc" id="L44">            user = (Users) query.uniqueResult();</span>
+<span class="fc" id="L45">            tx.commit();</span>
+<span class="fc" id="L46">        } catch (Exception e) {</span>
+<span class="fc" id="L47">            tx.rollback();</span>
+<span class="fc" id="L48">            System.out.println(&quot;[ERROR] UserDAO.getByUsername: &quot; + e.getMessage());</span>
+<span class="fc" id="L49">            user = null;</span>
+        } finally {
+<span class="pc" id="L51">            session.close();</span>
+<span class="fc" id="L52">        }</span>
+<span class="fc" id="L53">        return user;</span>
+    }
+
+    public Users getByEmail(String email) {
+        Users user;
+<span class="fc" id="L58">        Session session = BlogHubUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L59">        Transaction tx = session.beginTransaction();</span>
+        try {
+<span class="fc" id="L61">            Query query = session.createQuery(&quot;FROM Users WHERE email = :email&quot;);</span>
+<span class="fc" id="L62">            query.setParameter(&quot;email&quot;, email);</span>
+<span class="fc" id="L63">            user = (Users) query.uniqueResult();</span>
+<span class="fc" id="L64">            tx.commit();</span>
+<span class="fc" id="L65">        } catch (Exception e) {</span>
+<span class="fc" id="L66">            tx.rollback();</span>
+<span class="fc" id="L67">            System.out.println(&quot;[ERROR] UserDAO.getByEmail: &quot; + e.getMessage());</span>
+<span class="fc" id="L68">            user = null;</span>
+        } finally {
+<span class="pc" id="L70">            session.close();</span>
+<span class="fc" id="L71">        }</span>
+<span class="fc" id="L72">        return user;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

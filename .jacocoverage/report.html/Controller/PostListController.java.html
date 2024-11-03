@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PostListController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;BlogHub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Controller</a> &gt; <span class="el_source">PostListController.java</span></div><h1>PostListController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Controller;
+
+import DAO.PostDAO;
+import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import pojo.Posts;
+
+/**
+ *
+ * @author silviarianto
+ */
+@ManagedBean
+@ViewScoped
+public class PostListController {
+
+    private List&lt;Posts&gt; blogPosts;
+    private List&lt;Posts&gt; userPosts;
+    private PostDAO postDAO;
+
+    @ManagedProperty(value = &quot;#{sessionController}&quot;)
+    private SessionController sessionController;
+
+<span class="fc" id="L30">    public PostListController() {</span>
+<span class="fc" id="L31">        postDAO = new PostDAO();</span>
+<span class="fc" id="L32">    }</span>
+    
+    public List&lt;Posts&gt; loadBlogPosts() {
+<span class="fc" id="L35">        blogPosts = postDAO.getPosts();</span>
+<span class="fc" id="L36">        return blogPosts;</span>
+    }
+
+    public List&lt;Posts&gt; loadNewPosts() {
+<span class="fc" id="L40">        blogPosts = postDAO.getNewPosts();</span>
+<span class="fc" id="L41">        return blogPosts;</span>
+    }
+
+    public List&lt;Posts&gt; loadUserPosts() {
+<span class="fc" id="L45">        userPosts = postDAO.getPostByUser(sessionController.getCurrentUser());</span>
+<span class="fc" id="L46">        return userPosts;</span>
+    }
+
+    public List&lt;Posts&gt; getBlogPosts() {
+<span class="fc" id="L50">        return blogPosts;</span>
+    }
+
+    public void setBlogPosts(List&lt;Posts&gt; blogPosts) {
+<span class="fc" id="L54">        this.blogPosts = blogPosts;</span>
+<span class="fc" id="L55">    }</span>
+
+    public List&lt;Posts&gt; getUserPosts() {
+<span class="fc" id="L58">        return userPosts;</span>
+    }
+
+    public void setUserPosts(List&lt;Posts&gt; userPosts) {
+<span class="fc" id="L62">        this.userPosts = userPosts;</span>
+<span class="fc" id="L63">    }</span>
+
+    public SessionController getSessionController() {
+<span class="fc" id="L66">        return sessionController;</span>
+    }
+
+    public void setSessionController(SessionController sessionController) {
+<span class="fc" id="L70">        this.sessionController = sessionController;</span>
+<span class="fc" id="L71">    }</span>
+    
+    public void setPostDAO(PostDAO postDAO) {
+<span class="fc" id="L74">        this.postDAO = postDAO;</span>
+<span class="fc" id="L75">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

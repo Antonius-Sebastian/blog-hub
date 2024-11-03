@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">>
+    <h:head>
+        <title>BlogHub</title>
+        <link rel="stylesheet" href="./resources/css/output.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </h:head>
+    <h:body class="dark:bg-gray-900">
+        <h:panelGroup rendered="#{sessionController.error}"
+                      id="alert"
+                      styleClass="p-5 fixed z-10 top-10 right-10 w-64 p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 transition-opacity duration-300 opacity-100">
+            <h:form id="formin">
+                <ui:include id="1" src="./resources/svg/alert.svg" />
+                <h:inputHidden id="testing" />
+                <h:message for="testing" id="testes"/>
+            </h:form>
+        </h:panelGroup>
+        <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-lg">
+                <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">Get started today</h1>
+
+                <p class="mx-auto mt-4 max-w-md text-center text-gray-500 dark:text-gray-400">
+                    Log in to access your account, manage your blog posts, and discover new stories from our community of
+                    writers.
+                    Let's continue your blogging journey.
+                </p>
+
+                <h:form class="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
+                    <p class="text-center text-lg font-medium dark:text-white">Sign in to your account</p>
+
+                    <div>
+                        <h:outputLabel for="email" class="sr-only">Email</h:outputLabel>
+
+                        <div class="relative">
+                            <f:ajax event="blur" render="errEmail">
+                                <h:inputText value="#{sessionController.currentUser.email}"
+                                             id="email"
+                                             a:placeholder="Enter email"
+                                             required="true"
+                                             requiredMessage="Email is required"
+                                             class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                                             />
+                            </f:ajax>
+                            <h:message id="errEmail" for="email" styleClass="text-red-800 dark:text-red-400" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <h:outputLabel for="password" class="sr-only">Password</h:outputLabel>
+
+                        <div class="relative">
+                            <f:ajax event="blur" render="errPassword">
+                                <h:inputSecret value="${sessionController.currentUser.password}"
+                                               id="password"
+                                               required="true"
+                                               requiredMessage="Password is required"
+                                               class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                                               a:placeholder="Enter password"
+                                               />
+                            </f:ajax>
+                            <h:message id="errPassword" for="password" styleClass="text-red-800 dark:text-red-400" />
+                        </div>
+                    </div>
+
+                    <h:commandButton value="Sign in"
+                                     action="#{sessionController.login}"
+                                     class="block w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-500 px-5 py-3 text-sm font-medium text-white" />
+                    <p class="text-center text-sm text-gray-500">
+                        No account?
+                        <h:outputLink class="underline" value="register.xhtml">Sign up</h:outputLink>
+                    </p>
+                </h:form>
+            </div>
+        </div>
+
+
+        <script>
+            if (document.getElementById('alert')) {
+                setTimeout(function () {
+                    document.getElementById('alert').style.display = 'none';
+                }, 3000); // Hide after 3 seconds
+            }
+        </script>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("password");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.classList.add(savedTheme);
+                const checkbox = document.getElementById('AcceptConditions');
+                checkbox.checked = (savedTheme === 'dark');
+            });
+
+            function toggleTheme() {
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.classList.remove(currentTheme);
+                document.documentElement.classList.add(newTheme);
+                localStorage.setItem('theme', newTheme);
+                document.getElementById('AcceptConditions').checked = (newTheme === 'dark');
+            }
+        </script>
+    </h:body>
+</html>
+

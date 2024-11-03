@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TagDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;BlogHub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">DAO</a> &gt; <span class="el_source">TagDAO.java</span></div><h1>TagDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DAO;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import pojo.BlogHubUtil;
+import pojo.Tags;
+
+/**
+ *
+ * @author silviarianto
+ */
+<span class="fc" id="L20">public class TagDAO {</span>
+
+    public List&lt;Tags&gt; getTags() {
+        List&lt;Tags&gt; tags;
+<span class="fc" id="L24">        Session session = BlogHubUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L25">        Transaction tx = session.beginTransaction();</span>
+        try {
+<span class="fc" id="L27">            Query query = session.createQuery(&quot;FROM Tags&quot;);</span>
+<span class="fc" id="L28">            tags = query.list();</span>
+<span class="fc" id="L29">            tx.commit();</span>
+<span class="fc" id="L30">        } catch (Exception e) {</span>
+<span class="fc" id="L31">            tx.rollback();</span>
+<span class="fc" id="L32">            System.out.println(&quot;[ERROR] TagDAO.getTags: &quot; + e.getMessage());</span>
+<span class="fc" id="L33">            tags = null;</span>
+        } finally {
+<span class="pc" id="L35">            session.close();</span>
+<span class="fc" id="L36">        }</span>
+<span class="fc" id="L37">        return tags;</span>
+    }
+
+    public List&lt;Tags&gt; getTags(List&lt;Integer&gt; tagIds) {
+<span class="fc" id="L41">        List&lt;Tags&gt; tags = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L42">        Session session = BlogHubUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L43">        Transaction tx = session.beginTransaction();</span>
+        try {
+<span class="fc" id="L45">            Query query = session.createQuery(&quot;FROM Tags WHERE id IN (:ids)&quot;);</span>
+<span class="fc" id="L46">            query.setParameterList(&quot;ids&quot;, tagIds);</span>
+<span class="fc" id="L47">            tags = query.list();</span>
+<span class="fc" id="L48">            tx.commit();</span>
+<span class="fc" id="L49">        } catch (Exception e) {</span>
+<span class="fc" id="L50">            tx.rollback();</span>
+<span class="fc" id="L51">            System.out.println(&quot;[ERROR] TagDAO.getTags: &quot; + e.getMessage());</span>
+<span class="fc" id="L52">            tags = null;</span>
+        } finally {
+<span class="pc" id="L54">            session.close();</span>
+<span class="fc" id="L55">        }</span>
+<span class="fc" id="L56">        return tags;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
