@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <composite:interface>
+        <composite:attribute name="title" default=""/>
+        <composite:attribute name="content" default=""/>
+        <composite:attribute name="author" default=""/>
+        <composite:attribute name="date" default=""/>
+        <composite:attribute name="postId" default=""/>
+    </composite:interface>
+    <composite:implementation>
+        <article class="flex bg-gray-50 transition hover:shadow-xl my-6 dark:bg-gray-900 dark:shadow-gray-800/25">
+            <div class="rotate-180 p-2 [writing-mode:_vertical-lr]">
+                <time datetime="#{cc.attrs.date}"
+                      class="flex items-center justify-between gap-4 text-xs font-bold uppercase text-gray-900 dark:text-white">
+                    <span>#{cc.attrs.date.getYear() + 1900}</span>
+                    <span class="w-px flex-1 bg-gray-900/10 dark:bg-white/10"></span>
+                    <span>Oct 10</span>
+                </time>
+            </div>
+
+            <div class="hidden sm:block sm:basis-56">
+                <img alt="" src="https://picsum.photos/id/1/200" class="aspect-square h-full w-full object-cover" />
+            </div>
+
+            <div class="flex flex-1 flex-col justify-between">
+                <div class="dark:text-white border-s border-gray-900/10 p-4 sm:!border-l-transparent sm:p-6 dark:border-white/10">
+                    <a href="#">
+                        <h3 class="font-bold uppercase text-gray-900 dark:text-white">
+                            ${cc.attrs.title}
+                        </h3>
+                    </a>
+
+                    <div class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700 dark:text-gray-200">
+                        <h:outputText value="#{cc.attrs.content}" escape="false" />
+                    </div>
+                </div>
+
+                <div class="sm:flex sm:items-end sm:justify-end">
+
+                    <h:link value="Read Blog" outcome="blog.xhtml"
+                            styleClass="block bg-teal-600 px-5 py-3 text-center text-xs font-bold text-white transition uppercase hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 dark:text-white">
+                        <f:param name="postId" value="#{cc.attrs.postId}" />
+                    </h:link>
+                </div>
+            </div>
+        </article>
+    </composite:implementation>
+</html>
+

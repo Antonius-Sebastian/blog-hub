@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    lang="en">
+
+    <h:head>
+        <title>BlogHub</title>
+        <link rel="stylesheet" href="./resources/css/output.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </h:head>
+    <h:body>
+        <h:panelGroup rendered="#{userController.error}"
+                      id="alert"
+                      styleClass="p-5 fixed z-10 top-10 right-10 w-64 p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 transition-opacity duration-300 opacity-100">
+            <h:form id="formin">
+                <ui:include id="1" src="./resources/svg/alert.svg" />
+                <h:inputHidden id="testing" />
+                <h:message for="testing" id="testes"/>
+            </h:form>
+        </h:panelGroup>
+        <section class="bg-white dark:bg-gray-900">
+            <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
+                <aside class="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
+                    <img alt=""
+                         src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=870&amp;q=80"
+                         class="absolute inset-0 h-full w-full object-cover" />
+                </aside>
+
+                <main
+                    class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+                    <div class="max-w-xl lg:max-w-3xl">
+                        <h:outputLink styleClass="block text-blue-600" value="index.xhtml">
+                            <span class="sr-only">Home</span>
+                            <ui:include src="./resources/svg/header_logo.svg" />
+                        </h:outputLink>
+
+                        <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white">
+                            Welcome to BlogHub
+                        </h1>
+
+                        <p class="mt-4 leading-relaxed text-gray-500 dark:text-gray-400">
+                            Create an account to start sharing your stories, connect with other writers, and explore
+                            inspiring content.
+                            Registration is quick and easy—let your voice be heard today!
+                        </p>
+
+                        <h:form class="mt-8 grid grid-cols-6 gap-6">
+                            <div class="col-span-6">
+                                <h:outputLabel for="username"
+                                               styleClass="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                    Username
+                                </h:outputLabel>
+
+                                <f:ajax event="blur" render="errUsername">
+                                    <h:inputText value="#{userController.user.username}"
+                                                 id="username"
+                                                 required="true"
+                                                 requiredMessage="Username is required"
+                                                 styleClass="p-4 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"/>
+                                    <h:message id="errUsername" for="username" styleClass="text-red-800 dark:text-red-400" />
+                                </f:ajax>
+                            </div>
+
+                            <div class="col-span-6">
+                                <h:outputLabel for="email"
+                                               styleClass="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                    Email
+                                </h:outputLabel>
+                                <f:ajax event="blur" render="errEmail">
+                                    <h:inputText value="#{userController.user.email}"
+                                                 required="true" 
+                                                 requiredMessage="Email is required"
+                                                 id="email"
+                                                 styleClass="p-4 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"/>
+                                    <h:message id="errEmail" for="email" styleClass="text-red-800 dark:text-red-400" />
+                                </f:ajax>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <h:outputLabel for="password"
+                                               styleClass="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                    Password
+                                </h:outputLabel>
+                                <h:inputSecret value="#{userController.user.password}"
+                                               required="true"
+                                               requiredMessage="Password is required"
+                                               id="password"
+                                               validator="#{userController.validateFinalPassword}"
+                                               styleClass="p-4 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                                    <f:ajax event="blur" render="errPassword" />
+                                </h:inputSecret>
+
+                                <h:message id="errPassword" for="password" styleClass="text-red-800 dark:text-red-400" />
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <h:outputLabel for="passwordConfirm"
+                                               styleClass="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                    Password Confirmation
+                                </h:outputLabel>
+                                <h:inputSecret value="#{userController.confirmPassword}"
+                                               required="true" 
+                                               requiredMessage="Confirm your password"
+                                               id="passwordConfirm"
+                                               validator="#{userController.validateConfirmPassword}"
+                                               styleClass="p-4 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                                </h:inputSecret>
+                                <h:message id="errConfirmPassword" for="passwordConfirm" styleClass="text-red-800 dark:text-red-400" />
+                            </div>
+
+
+
+                            <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+                                <h:commandButton value="Create an account"
+                                                 action="#{userController.register}"
+                                                 styleClass="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white" />
+                                <p class="mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400">
+                                    Already have an account?
+                                    <h:outputLink value="login.xhtml" styleClass="text-gray-700 underline dark:text-gray-200">Log in</h:outputLink>.
+                                </p>
+                            </div>
+                        </h:form>
+                    </div>
+                </main>
+            </div>
+        </section>
+
+        <script>
+            if (document.getElementById('alert')) {
+                setTimeout(function () {
+                    document.getElementById('alert').style.display = 'none';
+                }, 3000); // Hide after 3 seconds
+            }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.classList.add(savedTheme);
+                const checkbox = document.getElementById('AcceptConditions');
+                checkbox.checked = (savedTheme === 'dark');
+            });
+
+            function toggleTheme() {
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.classList.remove(currentTheme);
+                document.documentElement.classList.add(newTheme);
+                localStorage.setItem('theme', newTheme);
+                document.getElementById('AcceptConditions').checked = (newTheme === 'dark');
+            }
+        </script>
+    </h:body>
+</html>
+

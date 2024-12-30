@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./base.xhtml" >
+            <ui:define name="content">
+                <h:panelGroup rendered="${sessionController.isLoggedIn()}">
+                    <div class="mx-auto py-8 max-w-screen-xl px-4 sm:px-6 lg:px-8">
+                        <h1 class="text-3xl my-6 font-extrabold sm:text-5xl dark:text-white">
+                            Your Posts
+                        </h1>
+                        <ui:repeat value="#{postListController.loadUserPosts()}" var="post">
+                            <comp:BlogCard2 title="#{post.title}" 
+                                            content="#{post.content}" 
+                                            author="#{post.users.username}"
+                                            date="#{post.createdAt}"
+                                            postId ="#{post.id}"
+                                            userPost="true"
+                                            />
+                        </ui:repeat>
+                    </div>
+                </h:panelGroup>
+            </ui:define>
+            <ui:define name="jsDOM">
+
+                <script>
+                    const dropdownButtons = document.querySelectorAll('.dropdown-btn');
+                    dropdownButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            const dropdownId = button.getAttribute('data-dropdown-toggle');
+                            const dropdown = document.getElementById(dropdownId);
+
+                            dropdown.classList.toggle('hidden');
+                        });
+                    });
+                    document.addEventListener('click', function (e) {
+                        dropdownButtons.forEach(button => {
+                            const dropdownId = button.getAttribute('data-dropdown-toggle');
+                            const dropdown = document.getElementById(dropdownId);
+
+                            if (!button.contains(e.target) &amp;&amp; !dropdown.contains(e.target)) {
+                                dropdown.classList.add('hidden');
+                            }
+                        });
+                    });
+                </script>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
